@@ -65,14 +65,8 @@
 
 #### 安装步骤
 1. 克隆本仓库并进入目录
-2. 安装依赖  
+2. 使用 docker
    ```bash
-   pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-   ```
-3. 启动服务
-   ```bash
-   python3 run.py
-   # 或使用 docker
    docker build -t code-analyzer-agent .
    docker run -p 8000:8000 code-analyzer-agent
    ```
