@@ -73,9 +73,24 @@
 
 #### 用法举例
 ```bash
-curl -F "problem_description=请帮我测试所有消息相关接口和分页功能" \
-     -F "code_zip=@your_project.zip" \
-     http://localhost:8000/analyze > result.json
+# 向 localhost:8000/analyze 提交问题描述和代码压缩包，结果输出到 result.json
+curl -X POST \
+  -F "problem_description=Create a multi-channel forum api. Can use any stack, but must use typescript, be deployable, and of production quality. Try using graphql or grpc for fun, but REST is ok too. Try using docker containers for fun if you want. Show how you would like to write documentation and testing if possible.
+
+Channel Model: { id, name }
+
+Message Model: { id, title, content, channel, createdAt }
+
+The API should have these features.
+- create a channel
+- write messages in a channel
+- list messages in a channel and order by descending (pagination is a extra credit)
+
+Show how a production level project would look. (documentation, testing, error handling, etc ...)
+
+Send the repository link of the project by email when finished." \
+  -F "code_zip=@nestjs-channel-messenger-demo-main.zip" \
+  http://localhost:8000/analyze > result.json
 ```
 返回结果中：
 - `feature_analysis`: 给出需求分解→实现定位
