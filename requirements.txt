@@ -1,0 +1,10 @@
+fastapi==0.114.2
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+langgraph==0.2.33
+langchain-core==0.3.12
+pydantic==2.9.2
+ollama==0.3.3
+orjson==3.10.7
+anthropic==0.36.0
+dashscope==1.20.14
