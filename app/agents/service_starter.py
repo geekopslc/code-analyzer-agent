@@ -282,7 +282,7 @@ def start_service(command: str, cwd: str, port: int = DEFAULT_PORT) -> Optional[
             bufsize=1  # 行缓冲，确保输出及时打印
         )
         
-        log.info("Service process started (PID: %d), waiting for port %d...", proc.pid, port)
+        log.info("正在按照依赖和启动服务进程 (PID: %d)，等待端口 %d...，请稍后", proc.pid, port)
         
         # 启动后台线程持续打印进程输出
         output_thread = threading.Thread(

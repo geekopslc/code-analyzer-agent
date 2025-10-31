@@ -65,7 +65,7 @@
 
 #### 安装步骤
 1. 克隆本仓库并进入目录
-2. 使用 docker
+2. 使用 docker 启动服务
    ```bash
    docker build -t code-analyzer-agent .
    docker run -p 8000:8000 code-analyzer-agent
@@ -82,17 +82,7 @@ curl -F "problem_description=请帮我测试所有消息相关接口和分页功
 - `execution_plan_suggestion`: 推荐的项目启动方法
 - `functional_verification`: 每项业务自动生成的 Node.js 测试代码、run 命令和实际执行结果
 
-### 示例输出结构
-详见开头用户需求中的 json 示例。
 
----
-
-## 典型应用场景
-
-- **AI 编写 PR/需求文档或自动评审代码实现**
-- **CI 自动化需求-实现-用例链路验证**
-- **大模型驱动智能问诊/维护遗留代码库**
-- **开发者快速自测和交付前自动验证**
 
 ## 目录结构说明
 
@@ -103,6 +93,5 @@ curl -F "problem_description=请帮我测试所有消息相关接口和分页功
 - `requirements.txt`  依赖列表
 - `Dockerfile`  部署镜像示例
 
----
 
 
