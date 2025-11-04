@@ -309,20 +309,19 @@ def build_execution_suggestion(root_dir: str) -> str:
 	Generate execution suggestion by having LLM analyze project files.
 	Always returns a non-empty string.
 	"""
-	from app.config.settings import use_ollama, ollama_model
+	from app.agents.model_driver import ModelDriver
 	
 	files = list(os.path.relpath(p, root_dir) for p in walk_repository(root_dir))
-	
+
 	# Use LLM to analyze and generate suggestion
-	if use_ollama():
-		try:
-			import ollama
-			
-			# Get actual code content from key files
-			code_snippets = get_key_files_content(root_dir, max_files=15, max_lines_per_file=80)
-			file_sample = files[:50]
-			
-			prompt = f"""You are an expert developer assistant analyzing a code repository.
+	try:
+		driver = ModelDriver()
+		
+		# Get actual code content from key files
+		code_snippets = get_key_files_content(root_dir, max_files=15, max_lines_per_file=80)
+		file_sample = files[:50]
+		
+		prompt = f"""You are an expert developer assistant analyzing a code repository.
 
 Project file list:
 {chr(10).join(file_sample)}
@@ -353,20 +352,24 @@ Requirements:
 4. No extra explanation or formatting
 
 Output:"""
-			
-			resp = ollama.chat(model=ollama_model(), messages=[{"role": "user", "content": prompt}])
-			suggestion = resp.get("message", {}).get("content", "").strip()
-			
-			# Clean up if wrapped in quotes or extra formatting
-			suggestion = suggestion.strip('"\'`')
-			
-			if suggestion and len(suggestion) > 10:
-				log.info("LLM generated suggestion: %s", suggestion[:100])
-				return suggestion
-			else:
-				log.warning("LLM returned empty/invalid suggestion")
-		except Exception as e:
-			log.warning("LLM suggestion generation failed: %s", e)
+		
+		suggestion = driver.chat(
+			prompt=prompt,
+			system="You are an expert developer assistant. Output only the execution plan, no extra text.",
+			max_tokens=500,
+			qcoder=True
+		).strip()
+		
+		# Clean up if wrapped in quotes or extra formatting
+		suggestion = suggestion.strip('"\'`')
+		
+		if suggestion and len(suggestion) > 10:
+			log.info("LLM generated suggestion: %s", suggestion[:100])
+			return suggestion
+		else:
+			log.warning("LLM returned empty/invalid suggestion")
+	except Exception as e:
+		log.warning("LLM suggestion generation failed: %s", e)
 	
 	# Fallback: simple heuristic-based suggestion (avoid Angular false-positives)
 	log.info("using fallback suggestion generation")
