@@ -635,7 +635,7 @@ def start_service_if_needed(
     
     if proc:
         # 等待服务就绪，每5秒检测一次，最多等待5分钟
-        _wait_for_service_ready(port, max_wait_seconds=300, check_interval=5)
+        _wait_for_service_ready(port, max_wait_seconds=3, check_interval=1)
         log.info(f"Service initialization complete (local process, port: {port})")
         return proc, True
     else:
@@ -650,7 +650,7 @@ def start_service_if_needed(
             
             if proc:
                 # 等待服务就绪，每5秒检测一次，最多等待5分钟
-                _wait_for_service_ready(port, max_wait_seconds=300, check_interval=5)
+                _wait_for_service_ready(port, max_wait_seconds=3, check_interval=1)
                 log.info(f"Service started successfully after installing dependencies (port: {port})")
                 return proc, True
             else:
