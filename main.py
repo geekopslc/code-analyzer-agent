@@ -16,7 +16,7 @@ logging.basicConfig(
 
 logger = logging.getLogger("main")
 logger.info("=" * 80)
-logger.info("启动 Independent Code Analyzer Agent")
+logger.info("启动 Code Analyzer Agent")
 logger.info("=" * 80)
 
 try:
@@ -132,7 +132,7 @@ def create_app() -> "FastAPI":
     if FastAPI is None:
         raise RuntimeError("FastAPI 未安装，无法启动 HTTP 模式。请先安装 fastapi 和 uvicorn。")
     
-    app = FastAPI(title="Independent QCoder Analyzer", version="1.0.0")
+    app = FastAPI(title="Code Analyzer Agent", version="1.0.0")
     
     @app.post("/analyze")
     async def analyze_endpoint(
@@ -191,7 +191,7 @@ else:
 if __name__ == "__main__":
     import argparse
     
-    parser = argparse.ArgumentParser(description="Independent QCoder Analyzer 启动入口")
+    parser = argparse.ArgumentParser(description="Code Analyzer Agent 启动入口")
     parser.add_argument(
         "--mode",
         choices=["direct", "api"],
